@@ -1,157 +1,389 @@
-import type { Child } from "hono/jsx";
-import type { Field, ImageValue, Section } from "../../schema";
-import { cloudName, imgUrl } from "../../cloudinary";
-import { env } from "../../env";
-import { site } from "../../site";
-import { Document } from "../Document";
+import type {Child} from 'hono/jsx';
+import type {
+  Field,
+  ImageValue,
+  ListItem,
+  Section,
+  TextField,
+} from '../../schema';
+import {imgUrl, uploadsConfigured} from '../../cloudinary';
+import {site} from '../../site';
+import {Document} from '../document';
 
-const HTMX = "https://unpkg.com/htmx.org@2.0.11/dist/htmx.min.js";
-const UPLOAD_WIDGET = "https://upload-widget.cloudinary.com/latest/global/all.js";
+const HTMX = 'https://unpkg.com/htmx.org@2.0.11/dist/htmx.min.js';
 
-type AdminLayoutProps = { title: string; loggedIn?: boolean; uploadFolder?: string; children?: Child };
+interface AdminLayoutProps {
+  title: string;
+  loggedIn?: boolean;
+  children?: Child;
+}
 
-export const AdminLayout = ({ title, loggedIn, uploadFolder, children }: AdminLayoutProps) => (
-  <Document
-    meta={{ title: `${title} · ${site.name} admin`, noindex: true }}
-    head={
-      loggedIn && (
-        <>
-          <script src={HTMX} defer></script>
-          <script src={UPLOAD_WIDGET} defer></script>
-          <script src="/assets/admin.js" defer></script>
-        </>
-      )
-    }
-  >
-    <body
-      class="admin"
-      data-cloud={cloudName()}
-      data-api-key={loggedIn ? env("CLOUDINARY_API_KEY") : undefined}
-      data-folder={uploadFolder}
+export function AdminLayout({title, loggedIn, children}: AdminLayoutProps) {
+  return (
+    <Document
+      meta={{title: `${title} · ${site.name} admin`, noindex: true}}
+      head={
+        loggedIn && (
+          <>
+            <script src={HTMX} defer></script>
+            <script src="/assets/admin.js" defer></script>
+          </>
+        )
+      }
     >
-      <header class="container">
-        <nav>
-          <ul>
-            <li>
-              <a href="/admin" class="contrast">
-                <strong>{site.name}</strong> admin
-              </a>
-            </li>
-          </ul>
-          <ul>
-            <li>
-              <a href="/" target="_blank">
-                View site ↗
-              </a>
-            </li>
-            {loggedIn && (
+      <body class="admin">
+        <header class="container">
+          <nav>
+            <ul>
               <li>
-                <form method="post" action="/admin/logout" class="inline">
-                  <button type="submit" class="outline secondary">
-                    Log out
-                  </button>
-                </form>
+                <a href="/admin" class="contrast">
+                  <strong>{site.name}</strong>
+                </a>
               </li>
-            )}
-          </ul>
-        </nav>
-      </header>
-      <main class="container">{children}</main>
-    </body>
-  </Document>
-);
-
-// ---- Section form -------------------------------------------------------
+            </ul>
+            <ul>
+              <li>
+                <a href="/" target="_blank">
+                  View site ↗
+                </a>
+              </li>
+              {loggedIn && (
+                <>
+                  <li>
+                    <a href="/admin/account">Account</a>
+                  </li>
+                  <li>
+                    <form method="post" action="/admin/logout" class="inline">
+                      <button type="submit" class="outline secondary">
+                        Log out
+                      </button>
+                    </form>
+                  </li>
+                </>
+              )}
+            </ul>
+          </nav>
+        </header>
+        <main class="container">{children}</main>
+      </body>
+    </Document>
+  );
+}
 
 type Values = Record<string, unknown>;
-export type FormState = { values: Values; errors?: Record<string, string>; saved?: boolean; updatedAt?: string | null };
 
-const asString = (v: unknown) => (typeof v === "string" ? v : "");
-const asImages = (v: unknown): Partial<ImageValue>[] =>
-  Array.isArray(v) ? v : v && typeof v === "object" ? [v as Partial<ImageValue>] : [];
+export interface FormState {
+  values: Values;
+  errors?: Record<string, string>;
+  saved?: boolean;
+  updatedAt?: string | null;
+}
 
-const Help = ({ text, error }: { text?: string; error?: string }) =>
-  error ? <small class="error">{error}</small> : text ? <small>{text}</small> : null;
+function asString(v: unknown): string {
+  return typeof v === 'string' ? v : '';
+}
 
-const ImageItem = ({ name, image }: { name: string; image?: Partial<ImageValue> }) => (
-  <div class="img-item">
-    <img src={image?.id ? imgUrl(image.id, { width: 240, height: 160 }) : ""} alt="" width={120} height={80} />
-    <input type="hidden" name={`${name}.id`} value={image?.id ?? ""} />
-    <input type="hidden" name={`${name}.width`} value={String(image?.width ?? "")} />
-    <input type="hidden" name={`${name}.height`} value={String(image?.height ?? "")} />
-    <input
-      name={`${name}.alt`}
-      value={image?.alt ?? ""}
-      placeholder="Describe the image (alt text)"
-      aria-label="Alt text"
-      required
-      maxlength={300}
-    />
-    <button type="button" class="outline secondary" data-remove>
-      Remove
-    </button>
-  </div>
-);
+function asArray<T>(v: unknown): Array<Partial<T>> {
+  if (Array.isArray(v)) {
+    return v as Array<Partial<T>>;
+  }
 
-const ImageField = ({ field, value, error }: { field: Field; value: unknown; error?: string }) => {
-  const multiple = field.type === "images";
-  const max = field.type === "images" ? field.max : 1;
+  return v && typeof v === 'object' ? [v] : [];
+}
+
+export function Help({text, error}: {text?: string; error?: string}) {
+  if (error) {
+    return <small class="error">{error}</small>;
+  }
+
+  return text ? <small>{text}</small> : null;
+}
+
+function ItemActions({movable, retry}: {movable?: boolean; retry?: boolean}) {
   return (
-    <fieldset data-image-field data-multiple={String(multiple)} data-max={max ? String(max) : undefined}>
+    <div class="item-actions">
+      {movable && (
+        <>
+          <button
+            type="button"
+            class="outline secondary"
+            data-move="up"
+            aria-label="Move up"
+          >
+            ↑
+          </button>
+          <button
+            type="button"
+            class="outline secondary"
+            data-move="down"
+            aria-label="Move down"
+          >
+            ↓
+          </button>
+        </>
+      )}
+      {retry && (
+        <button type="button" class="outline" data-retry hidden>
+          Retry
+        </button>
+      )}
+      <button type="button" class="outline secondary" data-remove>
+        Remove
+      </button>
+    </div>
+  );
+}
+
+interface ImageItemProps {
+  name: string;
+  image?: Partial<ImageValue>;
+  multiple: boolean;
+  captions?: boolean;
+  featured?: boolean;
+}
+
+function ImageItem({
+  name,
+  image,
+  multiple,
+  captions,
+  featured,
+}: ImageItemProps) {
+  return (
+    <div class="item img-item" data-item>
+      <img
+        class="thumb"
+        src={image?.id ? imgUrl(image.id, {width: 240, height: 160}) : ''}
+        alt=""
+        width={120}
+        height={80}
+      />
+      <div class="item-fields">
+        <input type="hidden" name={`${name}.id`} value={image?.id ?? ''} />
+        <input
+          type="hidden"
+          name={`${name}.width`}
+          value={String(image?.width ?? '')}
+        />
+        <input
+          type="hidden"
+          name={`${name}.height`}
+          value={String(image?.height ?? '')}
+        />
+        <input
+          name={`${name}.alt`}
+          value={image?.alt ?? ''}
+          placeholder="Describe the image (alt text)"
+          aria-label="Alt text"
+          required
+          maxlength={300}
+        />
+        {captions && (
+          <input
+            name={`${name}.caption`}
+            value={image?.caption ?? ''}
+            placeholder="Caption (optional)"
+            aria-label="Caption"
+            maxlength={300}
+          />
+        )}
+        {featured && (
+          <label class="check">
+            <input
+              type="checkbox"
+              name={`${name}.featured`}
+              value={image?.id ?? ''}
+              checked={image?.featured}
+            />
+            Show on home page
+          </label>
+        )}
+        <progress hidden max={100} value={0}></progress>
+        <small class="item-status" role="status"></small>
+      </div>
+      <ItemActions movable={multiple} retry />
+    </div>
+  );
+}
+
+interface FieldProps {
+  field: Field;
+  value: unknown;
+  error?: string;
+}
+
+function ImageField({field, value, error}: FieldProps) {
+  if (field.type !== 'image' && field.type !== 'images') {
+    return null;
+  }
+  const multiple = field.type === 'images';
+  const itemProps = {
+    name: field.name,
+    multiple,
+    captions: field.captions,
+    featured: field.type === 'images' && field.featured,
+  };
+  const max = field.type === 'images' ? field.max : 1;
+
+  return (
+    <fieldset
+      data-image-field
+      data-multiple={String(multiple)}
+      data-max={max ? String(max) : undefined}
+    >
       <legend>
         {field.label}
-        {field.required && " *"}
+        {field.required && ' *'}
       </legend>
-      <div class="img-list">
-        {asImages(value).map((image) => (
-          <ImageItem name={field.name} image={image} />
+      <div class="item-list">
+        {asArray<ImageValue>(value).map(image => (
+          <ImageItem {...itemProps} image={image} />
         ))}
       </div>
       <template>
-        <ImageItem name={field.name} />
+        <ImageItem {...itemProps} />
       </template>
-      {cloudName() ? (
-        <button type="button" class="secondary" data-upload>
-          {multiple ? "Add images" : "Upload image"}
-        </button>
+      {uploadsConfigured() ? (
+        <>
+          <input type="file" accept="image/*" multiple={multiple} hidden />
+          <button type="button" class="secondary" data-upload>
+            {multiple ? 'Upload images' : 'Upload image'}
+          </button>
+        </>
       ) : (
-        <small>Image uploads aren't configured (set the CLOUDINARY_* environment variables).</small>
+        <small>
+          Image uploads aren't configured (set the CLOUDINARY_* environment
+          variables).
+        </small>
       )}
       <Help text={field.help} error={error} />
     </fieldset>
   );
-};
+}
 
-const FieldInput = ({ field, value, error }: { field: Field; value: unknown; error?: string }) => {
-  if (field.type === "image" || field.type === "images") return <ImageField field={field} value={value} error={error} />;
+interface TextInputProps {
+  field: TextField;
+  name: string;
+  value: unknown;
+  error?: string;
+}
+
+function TextInput({field, name, value, error}: TextInputProps) {
   const common = {
-    name: field.name,
+    name,
     required: field.required,
-    maxlength: field.max,
-    "aria-invalid": error ? "true" : undefined,
+    maxlength: field.type === 'date' ? undefined : field.max,
+    'aria-invalid': error ? 'true' : undefined,
   };
+  const rows = Math.min(12, Math.max(3, Math.round((field.max ?? 600) / 150)));
+
   return (
     <label>
       {field.label}
-      {field.required && " *"}
-      {field.type === "textarea" ? (
-        <textarea {...common} rows={Math.min(12, Math.max(3, Math.round((field.max ?? 600) / 150)))}>
+      {field.required && ' *'}
+      {field.type === 'textarea' ? (
+        <textarea {...common} rows={rows}>
           {asString(value)}
         </textarea>
       ) : (
-        <input type="text" {...common} value={asString(value)} />
+        <input
+          type={field.type === 'date' ? 'date' : 'text'}
+          {...common}
+          value={asString(value)}
+        />
       )}
       <Help text={field.help} error={error} />
     </label>
   );
-};
+}
 
-const formatDate = (iso: string) =>
-  new Date(iso).toLocaleString(site.ogLocale.replace("_", "-"), { dateStyle: "medium", timeStyle: "short" });
+function ListItemRow({
+  field,
+  item,
+}: {
+  field: Extract<Field, {type: 'list'}>;
+  item?: Partial<ListItem>;
+}) {
+  return (
+    <div class="item list-item" data-item>
+      {field.fields.map(sub => (
+        <TextInput
+          field={sub}
+          name={`${field.name}.${sub.name}`}
+          value={item?.[sub.name]}
+        />
+      ))}
+      <ItemActions movable />
+    </div>
+  );
+}
 
-export const SectionForm = ({ section, state }: { section: Section; state: FormState }) => {
+function ListField({field, value, error}: FieldProps) {
+  if (field.type !== 'list') {
+    return null;
+  }
+
+  return (
+    <fieldset
+      data-list-field
+      data-max={field.max ? String(field.max) : undefined}
+    >
+      <legend>
+        {field.label}
+        {field.required && ' *'}
+      </legend>
+      <div class="item-list">
+        {asArray<ListItem>(value).map(item => (
+          <ListItemRow field={field} item={item} />
+        ))}
+      </div>
+      <template>
+        <ListItemRow field={field} />
+      </template>
+      <button type="button" class="secondary" data-add>
+        Add {field.itemLabel.toLowerCase()}
+      </button>
+      <Help text={field.help} error={error} />
+    </fieldset>
+  );
+}
+
+function FieldInput({field, value, error}: FieldProps) {
+  switch (field.type) {
+    case 'image':
+    case 'images':
+      return <ImageField field={field} value={value} error={error} />;
+    case 'list':
+      return <ListField field={field} value={value} error={error} />;
+    default:
+      return (
+        <TextInput
+          field={field}
+          name={field.name}
+          value={value}
+          error={error}
+        />
+      );
+  }
+}
+
+function formatDate(iso: string): string {
+  return new Date(iso).toLocaleString(site.ogLocale.replace('_', '-'), {
+    dateStyle: 'medium',
+    timeStyle: 'short',
+  });
+}
+
+export function SectionForm({
+  section,
+  state,
+}: {
+  section: Section;
+  state: FormState;
+}) {
   const url = `/admin/sections/${section.key}`;
-  const hasErrors = state.errors && Object.keys(state.errors).length > 0;
+  const hasErrors = Object.keys(state.errors ?? {}).length > 0;
+
   return (
     <form
       method="post"
@@ -171,14 +403,20 @@ export const SectionForm = ({ section, state }: { section: Section; state: FormS
             </>
           )}
         </header>
-        {section.fields.map((f) => (
-          <FieldInput field={f} value={state.values[f.name]} error={state.errors?.[f.name]} />
+        {section.fields.map(f => (
+          <FieldInput
+            field={f}
+            value={state.values[f.name]}
+            error={state.errors?.[f.name]}
+          />
         ))}
         <footer class="form-footer">
           <button type="submit">Save</button>
           <span role="status">
             {state.saved && <ins>Saved ✓</ins>}
-            {hasErrors && <del>Not saved — please fix the highlighted fields.</del>}
+            {hasErrors && (
+              <del>Not saved — please fix the highlighted fields.</del>
+            )}
             {!state.saved && !hasErrors && state.updatedAt && (
               <small>Last saved {formatDate(state.updatedAt)}</small>
             )}
@@ -187,4 +425,4 @@ export const SectionForm = ({ section, state }: { section: Section; state: FormS
       </article>
     </form>
   );
-};
+}

@@ -1,30 +1,77 @@
-// Site-wide settings. A fork of the template edits this file, together with schema.ts and the public views.
-
 export const site = {
-  name: "cms-lite",
-  lang: "en",
-  /** Open Graph locale, e.g. en_GB */
-  ogLocale: "en_GB",
-  defaultTitle: "cms-lite — a tiny CMS template",
-  defaultDescription: "A minimal site with a password-protected admin for editing content and images.",
-  /** Old path → new path. Served as 301s, e.g. to preserve rankings from a previous site. */
+  name: 'cms-lite',
+  lang: 'en',
+  ogLocale: 'en_GB',
+  defaultTitle: 'cms-lite — a tiny CMS template',
+  defaultDescription:
+    'A minimal site with a password-protected admin for editing content and images.',
   redirects: {} as Record<string, string>,
+  support: {
+    name: 'your web developer',
+    email: '',
+    phone: '',
+  },
 };
 
-export type Page = {
+export interface Page {
   key: string;
   path: string;
-  /** Label for navigation and the admin dashboard */
   label: string;
-  /** Section keys (from schema.ts) edited on this page's admin screen */
   sections: string[];
-};
+  uses?: string[];
+  // Search and share tags are inferred from the page content; set these to
+  // override the title or description
+  title?: string;
+  description?: string;
+}
 
-// Each page automatically gets an SEO section keyed `seo.<page key>`.
 export const PAGES: Page[] = [
-  { key: "home", path: "/", label: "Home", sections: ["home.hero", "home.gallery"] },
-  { key: "about", path: "/about", label: "About", sections: ["about.main"] },
+  {
+    key: 'home',
+    path: '/',
+    label: 'Home',
+    sections: ['home.hero', 'home.featured', 'home.contact'],
+    uses: ['gallery.main'],
+  },
+  {
+    key: 'gallery',
+    path: '/gallery',
+    label: 'Gallery',
+    sections: ['gallery.main'],
+  },
+  {key: 'about', path: '/about', label: 'About', sections: ['about.main']},
 ];
 
-/** Sections rendered on every page (header/footer); edited under "Site-wide" in the admin. */
-export const GLOBAL_SECTIONS = ["site.footer"];
+export const GLOBAL_SECTIONS = ['site.footer'];
+
+export interface ContactField {
+  name: string;
+  label: string;
+  type: 'text' | 'email' | 'tel' | 'textarea';
+  autocomplete?: string;
+  required?: boolean;
+}
+
+// Keep in sync with the hidden form in public/thanks/index.html, which is
+// what Netlify's form detection reads
+export const CONTACT_FORM: {name: string; fields: ContactField[]} = {
+  name: 'contact',
+  fields: [
+    {
+      name: 'name',
+      label: 'Name',
+      type: 'text',
+      autocomplete: 'name',
+      required: true,
+    },
+    {
+      name: 'email',
+      label: 'Email',
+      type: 'email',
+      autocomplete: 'email',
+      required: true,
+    },
+    {name: 'phone', label: 'Phone', type: 'tel', autocomplete: 'tel'},
+    {name: 'message', label: 'Message', type: 'textarea', required: true},
+  ],
+};
