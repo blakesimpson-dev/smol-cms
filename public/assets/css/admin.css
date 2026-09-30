@@ -1,0 +1,387 @@
+:root:not([data-theme='dark']),
+[data-theme='light'] {
+  --admin-bg: #eceef3;
+  --admin-border: #d5d9e2;
+  --admin-card-head: #f1f2f6;
+  --pico-card-background-color: #fff;
+  --pico-card-sectioning-background-color: var(--admin-card-head);
+}
+
+html,
+body {
+  min-height: 100svh;
+  background: var(--admin-bg);
+}
+
+.brand {
+  font-size: 1.5rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.admin-menu-toggle {
+  display: none;
+  margin: 0;
+  padding: 0.25rem;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  line-height: 0;
+}
+
+.admin-menu-toggle:focus {
+  --pico-box-shadow: none;
+  outline: none;
+}
+
+.admin-menu {
+  inset: 4rem 1rem auto auto;
+  min-width: 12rem;
+  margin: 0;
+  padding: 0.5rem;
+  border: 1px solid var(--admin-border);
+  border-radius: var(--pico-border-radius);
+  background: #fff;
+  box-shadow: 0 8px 24px rgb(20 21 31 / 0.12);
+}
+
+/* Pico's nav ul { display: flex } would otherwise show it while closed */
+.admin-menu:not(:popover-open) {
+  display: none;
+}
+
+.admin-menu:popover-open {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.admin-menu li {
+  padding: 0.5rem 0.75rem;
+  list-style: none;
+}
+
+.admin-menu form.inline button {
+  width: 100%;
+}
+
+@media (max-width: 767px) {
+  .admin-links {
+    display: none;
+  }
+
+  .admin-menu-toggle {
+    display: block;
+  }
+}
+
+form.inline {
+  margin: 0;
+}
+
+form.inline button {
+  margin: 0;
+  padding: 0.35rem 0.8rem;
+}
+
+article {
+  border: 1px solid var(--admin-border);
+  box-shadow: none;
+}
+
+article > header {
+  border-bottom: 1px solid var(--admin-border);
+}
+
+.page-head {
+  margin-bottom: var(--pico-spacing);
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 0.25rem;
+  font-size: 0.9rem;
+}
+
+.page-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.page-title-row h1 {
+  margin: 0;
+  font-size: 1.75rem;
+  line-height: 1.2;
+}
+
+.page-title-row [role='button'] {
+  flex-shrink: 0;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.9rem;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--pico-spacing);
+}
+
+@media (max-width: 575px) {
+  .cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  text-decoration: none;
+}
+
+.card article {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  height: 100%;
+  margin: 0;
+  padding: 2rem 1.75rem;
+}
+
+.card:hover article {
+  border-color: var(--pico-primary);
+}
+
+.card-title {
+  color: var(--ink);
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.card-path {
+  color: var(--pico-primary);
+}
+
+.form-footer {
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.5rem var(--pico-spacing);
+}
+
+.form-footer button {
+  width: auto;
+  margin: 0;
+}
+
+/* Only follow the bottom of the screen while there are changes to save */
+[data-section-form] .form-footer:has(button[type='submit']:not(.clean)) {
+  position: sticky;
+  bottom: 0;
+}
+
+.form-footer button.clean:disabled {
+  border-color: var(--admin-border);
+  background: var(--admin-border);
+  color: var(--pico-muted-color);
+  opacity: 1;
+}
+
+@media (max-width: 767px) {
+  .form-footer button {
+    width: 100%;
+  }
+}
+
+.drop-zone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: var(--pico-spacing);
+  padding: 2rem 1rem;
+  border: 2px dashed var(--admin-border);
+  border-radius: var(--pico-border-radius);
+  text-align: center;
+  transition:
+    border-color 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.drop-zone.dragging {
+  border-color: var(--pico-primary);
+  background: rgb(79 53 232 / 0.05);
+}
+
+.drop-hint {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  color: var(--pico-muted-color);
+  font-size: 1.25rem;
+}
+
+.drop-hint small {
+  font-size: 0.875rem;
+}
+
+.drop-zone button {
+  width: auto;
+  margin: 0;
+}
+
+/* Touch screens can't drag files, so only the button shows */
+@media (hover: none) {
+  .drop-hint {
+    display: none;
+  }
+
+  .drop-zone {
+    padding: 1rem;
+  }
+}
+
+.item-list {
+  display: grid;
+  gap: var(--pico-spacing);
+  margin-bottom: var(--pico-spacing);
+}
+
+.item-list:empty {
+  display: none;
+}
+
+.item {
+  padding: calc(var(--pico-spacing) * 0.75);
+  border: 1px solid var(--admin-border);
+  border-radius: var(--pico-border-radius);
+  background: #fff;
+}
+
+.img-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.75rem;
+}
+
+.img-item .thumb {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  background: var(--admin-border);
+}
+
+/* Single images: a large preview, with alt text and remove on one row below */
+.img-item.single {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+}
+
+.img-item.single .thumb {
+  grid-column: 1 / -1;
+  max-width: 480px;
+  aspect-ratio: 16 / 9;
+}
+
+.img-item.single .item-actions {
+  grid-column: auto;
+}
+
+/* A single image field only offers an upload when it's empty */
+[data-multiple='false']:has(.item-list > .item) .drop-zone {
+  display: none;
+}
+
+.item-fields {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.item-fields input,
+.item-fields label,
+.item-fields progress {
+  margin: 0;
+}
+
+.item-fields .check {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.item-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  grid-column: 1 / -1;
+}
+
+.item-actions button {
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  margin: 0;
+  padding: 0.25rem 0.75rem;
+}
+
+.item-actions [data-remove] {
+  margin-left: auto;
+}
+
+.item-actions .remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #f3c2cd;
+  background: #fdecef;
+  color: #d0314f;
+}
+
+.item-actions .remove:hover {
+  border-color: #e79aab;
+  background: #fbd5dd;
+  color: #b3223f;
+}
+
+.item-status:empty {
+  display: none;
+}
+
+[data-failed] .item-status {
+  color: var(--pico-del-color);
+}
+
+.pager {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: var(--pico-spacing);
+}
+
+.pager button {
+  width: auto;
+  min-width: 2.75rem;
+  margin: 0;
+}
+
+.counter {
+  display: block;
+  color: var(--pico-muted-color);
+}
+
+.counter.over {
+  color: #b35900;
+}
+
+@media (min-width: 768px) {
+  .img-item:not(.single) {
+    grid-template-columns: 240px minmax(0, 1fr) auto;
+    align-items: start;
+  }
+
+  .img-item:not(.single) .item-actions {
+    grid-column: auto;
+  }
+}
