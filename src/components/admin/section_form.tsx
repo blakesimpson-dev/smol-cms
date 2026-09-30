@@ -49,7 +49,7 @@ function SaveStatus({state}: {state: FormState}) {
     return null;
   }
   if (hasErrors) {
-    return <del>Not saved — please fix the highlighted fields.</del>;
+    return <del>Not saved. please fix the highlighted fields.</del>;
   }
 
   return state.updatedAt ? (

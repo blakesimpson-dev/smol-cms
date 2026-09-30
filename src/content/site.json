@@ -2,7 +2,7 @@
   "name": "smol-cms",
   "lang": "en",
   "ogLocale": "en_GB",
-  "defaultTitle": "smol-cms — a tiny CMS template",
+  "defaultTitle": "smol-cms - a tiny CMS template",
   "defaultDescription": "A minimal site with a password-protected admin for editing content and images.",
   "logo": {
     "src": "/assets/images/logo.png",

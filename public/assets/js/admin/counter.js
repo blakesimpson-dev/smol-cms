@@ -1,4 +1,4 @@
-const BUSY_NOTE = ' — this may look busy on the page';
+const BUSY_NOTE = ' - this may look busy on the page';
 
 export function updateCounter(input) {
   const counter = input.parentElement.querySelector('.counter');

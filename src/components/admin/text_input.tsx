@@ -15,7 +15,7 @@ function Counter({length, recommended}: {length: number; recommended: number}) {
   return (
     <small class={over ? 'counter over' : 'counter'} aria-live="polite">
       {length} / {recommended}
-      {over && ' — this may look busy on the page'}
+      {over && ' - this may look busy on the page'}
     </small>
   );
 }
