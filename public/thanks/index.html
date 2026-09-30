@@ -1,26 +1,26 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="light">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex" />
     <title>Thank you</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2.1.1/css/pico.min.css"
-    />
-    <link rel="stylesheet" href="/assets/site.css" />
+    <link rel="stylesheet" href="/assets/css/vendor/pico.min.css" />
+    <link rel="stylesheet" href="/assets/css/base.css" />
+    <link rel="stylesheet" href="/assets/css/public.css" />
   </head>
   <body>
-    <main class="container narrow">
-      <article>
-        <h1>Thank you</h1>
-        <p>Your message has been sent. We'll get back to you soon.</p>
-        <a href="/" role="button">Back to the home page</a>
-      </article>
+    <main class="section">
+      <div class="container narrow">
+        <article>
+          <h1>Thank you</h1>
+          <p>Your message has been sent. We'll get back to you soon.</p>
+          <a href="/" role="button">Back to the home page</a>
+        </article>
+      </div>
     </main>
-    <!-- Netlify form detection reads this; keep it in sync with CONTACT_FORM in src/site.ts -->
+    <!-- Netlify form detection reads this; keep it in sync with src/content/contact_form.json -->
     <form name="contact" netlify netlify-honeypot="bot-field" hidden>
       <input type="text" name="name" />
       <input type="email" name="email" />
