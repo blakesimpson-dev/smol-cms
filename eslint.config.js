@@ -3,10 +3,11 @@ import prettier from 'eslint-config-prettier/flat';
 import checkFile from 'eslint-plugin-check-file';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
+import {defineConfig} from 'eslint/config';
 
 const TS_FILES = ['**/*.{ts,tsx}'];
 
-// Google TypeScript Style Guide rules that ESLint can enforce; formatting is Prettier's
+// Google TypeScript Style Guide where applicable
 const GOOGLE_TS_RULES = {
   '@typescript-eslint/naming-convention': [
     'error',
@@ -57,8 +58,8 @@ const GOOGLE_TS_RULES = {
   ],
 };
 
-export default tseslint.config(
-  {ignores: ['.netlify/']},
+export default defineConfig([
+  {ignores: ['.netlify/', 'public/assets/*/vendor/']},
   js.configs.recommended,
   {
     files: TS_FILES,
@@ -91,9 +92,16 @@ export default tseslint.config(
     },
   },
   {
+    files: ['test/**/*.ts'],
+    rules: {
+      // node:test tracks the promise that test() returns
+      '@typescript-eslint/no-floating-promises': 'off',
+    },
+  },
+  {
     files: ['public/**/*.js'],
     languageOptions: {
-      sourceType: 'script',
+      sourceType: 'module',
       globals: globals.browser,
     },
   },
@@ -104,4 +112,4 @@ export default tseslint.config(
     },
   },
   prettier,
-);
+]);

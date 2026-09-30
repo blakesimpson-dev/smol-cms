@@ -1,5 +1,5 @@
 [build]
-  command = "npm run lint && npm run typecheck"
+  command = "npm run lint && npm run typecheck && npm test"
   publish = "public"
 
 [functions]

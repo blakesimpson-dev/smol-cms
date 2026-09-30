@@ -1,2 +1,4 @@
 package-lock.json
 .netlify/
+public/assets/js/vendor/
+public/assets/css/vendor/
