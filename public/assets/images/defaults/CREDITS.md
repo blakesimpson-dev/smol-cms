@@ -1,6 +1,9 @@
 # Default image credits
 
-Placeholder photos from [Unsplash](https://unsplash.com), used under the [Unsplash License](https://unsplash.com/license). Each was cropped and resized through the Unsplash CDN, from these photo ids (`https://images.unsplash.com/photo-<id>`):
+Placeholder photos from [Unsplash](https://unsplash.com), used under the
+[Unsplash License](https://unsplash.com/license). Each was cropped and resized
+through the Unsplash CDN, from these photo ids
+(`https://images.unsplash.com/photo-<id>`):
 
 | File              | Unsplash photo id            |
 | ----------------- | ---------------------------- |
