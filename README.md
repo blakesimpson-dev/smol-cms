@@ -6,7 +6,7 @@
 ![Netlify](https://img.shields.io/badge/Netlify-Functions-00c7b7?logo=netlify&logoColor=white)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
-A tiny CMS template: public site plus a password-protected `/admin`, where one
+A very smol CMS template: public site plus a password-protected `/admin`, where one
 editor fills in a few forms and uploads images from their phone. Built to be
 cloned as the starting point for small business sites.
 
