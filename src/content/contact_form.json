@@ -1,0 +1,26 @@
+{
+  "name": "contact",
+  "fields": [
+    {
+      "name": "name",
+      "label": "Name",
+      "type": "text",
+      "autocomplete": "name",
+      "required": true
+    },
+    {
+      "name": "email",
+      "label": "Email",
+      "type": "email",
+      "autocomplete": "email",
+      "required": true
+    },
+    {"name": "phone", "label": "Phone", "type": "tel", "autocomplete": "tel"},
+    {
+      "name": "message",
+      "label": "Message",
+      "type": "textarea",
+      "required": true
+    }
+  ]
+}

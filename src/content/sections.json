@@ -1,0 +1,258 @@
+[
+  {
+    "key": "home.hero",
+    "label": "Hero",
+    "description": "The large banner at the top of the home page.",
+    "fields": [
+      {
+        "name": "heading",
+        "label": "Heading",
+        "type": "text",
+        "required": true,
+        "max": 80,
+        "default": "Lorem ipsum dolor sit amet.",
+        "recommended": 40
+      },
+      {
+        "name": "intro",
+        "label": "Intro text",
+        "type": "textarea",
+        "max": 400,
+        "default": "Fusce in hendrerit orci. Donec odio libero, dignissim viverra fermentum maximus, mattis a justo.",
+        "recommended": 160
+      },
+      {
+        "name": "button",
+        "label": "Button text",
+        "type": "text",
+        "max": 30,
+        "default": "Get in touch",
+        "help": "The button links to the contact form.",
+        "recommended": 20
+      },
+      {
+        "name": "image",
+        "label": "Background image",
+        "type": "image",
+        "default": {
+          "id": "/assets/images/defaults/hero",
+          "alt": "Snow-capped mountains under a purple night sky and the Milky Way",
+          "width": 2400,
+          "height": 1350
+        }
+      }
+    ]
+  },
+  {
+    "key": "home.featured",
+    "label": "Featured work",
+    "description": "Shows the gallery images marked \"Show on home page\". Choose them on the Gallery page.",
+    "fields": [
+      {
+        "name": "heading",
+        "label": "Heading",
+        "type": "text",
+        "max": 80,
+        "default": "Featured work"
+      }
+    ]
+  },
+  {
+    "key": "home.contact",
+    "label": "Contact",
+    "fields": [
+      {
+        "name": "heading",
+        "label": "Heading",
+        "type": "text",
+        "max": 80,
+        "default": "Get in touch"
+      },
+      {
+        "name": "intro",
+        "label": "Intro text",
+        "type": "textarea",
+        "max": 600,
+        "default": "Send a message and we'll get back to you.",
+        "recommended": 200
+      }
+    ]
+  },
+  {
+    "key": "gallery.main",
+    "label": "Gallery",
+    "fields": [
+      {
+        "name": "heading",
+        "label": "Heading",
+        "type": "text",
+        "required": true,
+        "max": 80,
+        "default": "Gallery"
+      },
+      {
+        "name": "intro",
+        "label": "Intro text",
+        "type": "textarea",
+        "max": 600,
+        "default": "Maecenas sodales ultricies neque ac consectetur. Morbi consectetur neque tellus, vel viverra ligula hendrerit a.",
+        "recommended": 200
+      },
+      {
+        "name": "images",
+        "label": "Images",
+        "type": "images",
+        "max": 200,
+        "captions": true,
+        "featured": true,
+        "default": [
+          {
+            "id": "/assets/images/defaults/gallery-1",
+            "alt": "A sunlit granite cliff above a meadow and pine trees",
+            "width": 1600,
+            "height": 1067,
+            "caption": "Morning light on the valley walls",
+            "featured": true
+          },
+          {
+            "id": "/assets/images/defaults/gallery-2",
+            "alt": "A dirt path through a tall pine forest",
+            "width": 1600,
+            "height": 1067,
+            "caption": "A quiet trail through the pines",
+            "featured": true
+          },
+          {
+            "id": "/assets/images/defaults/gallery-3",
+            "alt": "A snowy mountain range above a forested valley and river",
+            "width": 1600,
+            "height": 1067,
+            "caption": "An alpine valley under a blue sky",
+            "featured": true
+          },
+          {
+            "id": "/assets/images/defaults/gallery-4",
+            "alt": "Mist rolling over green cliffs at sunrise",
+            "width": 1600,
+            "height": 1067,
+            "caption": "Sunrise over the misty cliffs",
+            "featured": true
+          },
+          {
+            "id": "/assets/images/defaults/gallery-5",
+            "alt": "A rowing boat on a turquoise mountain lake",
+            "width": 1600,
+            "height": 1067,
+            "caption": "Turquoise water beneath the peaks",
+            "featured": true
+          },
+          {
+            "id": "/assets/images/defaults/gallery-6",
+            "alt": "Mountain peaks rising above a sea of clouds at dusk",
+            "width": 1600,
+            "height": 1067,
+            "caption": "Above the clouds at dusk",
+            "featured": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "key": "about.main",
+    "label": "About",
+    "fields": [
+      {
+        "name": "heading",
+        "label": "Heading",
+        "type": "text",
+        "required": true,
+        "max": 80,
+        "default": "About"
+      },
+      {
+        "name": "body",
+        "label": "Body",
+        "type": "textarea",
+        "max": 5000,
+        "default": "We're a small, independent team that takes pride in doing things properly, from the first conversation to the finishing touches.\n\nEvery project is different, so we take the time to listen, plan carefully and keep you updated along the way. The result is work we're proud to put our name to, and clients who come back again."
+      },
+      {
+        "name": "image",
+        "label": "Photo",
+        "type": "image",
+        "default": {
+          "id": "/assets/images/defaults/about",
+          "alt": "Portrait of a smiling man in a white T-shirt",
+          "width": 1280,
+          "height": 1600
+        }
+      },
+      {
+        "name": "testimonials",
+        "label": "Testimonials",
+        "type": "list",
+        "itemLabel": "Testimonial",
+        "max": 20,
+        "fields": [
+          {
+            "name": "quote",
+            "label": "Quote",
+            "type": "textarea",
+            "required": true,
+            "max": 600,
+            "recommended": 280
+          },
+          {
+            "name": "author",
+            "label": "Name",
+            "type": "text",
+            "required": true,
+            "max": 80
+          },
+          {
+            "name": "date",
+            "label": "Date",
+            "type": "date"
+          }
+        ],
+        "default": [
+          {
+            "quote": "Friendly, reliable and genuinely great at what they do. The finished result was even better than we'd imagined.",
+            "author": "Sarah M.",
+            "date": "2025-03-14"
+          },
+          {
+            "quote": "Clear communication from start to finish, and everything was done on time and on budget. Highly recommended.",
+            "author": "James T.",
+            "date": "2025-06-02"
+          },
+          {
+            "quote": "They took the time to understand exactly what we wanted. We've already recommended them to friends and family.",
+            "author": "Priya K.",
+            "date": "2025-08-21"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "key": "site.footer",
+    "label": "Footer",
+    "fields": [
+      {
+        "name": "text",
+        "label": "Footer text",
+        "type": "text",
+        "max": 200,
+        "default": "© Blake Simpson 2026"
+      },
+      {
+        "name": "email",
+        "label": "Contact email",
+        "type": "text",
+        "max": 200
+      }
+    ]
+  }
+]

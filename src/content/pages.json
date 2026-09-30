@@ -1,0 +1,21 @@
+[
+  {
+    "key": "home",
+    "path": "/",
+    "label": "Home",
+    "sections": ["home.hero", "home.featured", "home.contact"],
+    "uses": ["gallery.main"]
+  },
+  {
+    "key": "gallery",
+    "path": "/gallery",
+    "label": "Gallery",
+    "sections": ["gallery.main"]
+  },
+  {
+    "key": "about",
+    "path": "/about",
+    "label": "About",
+    "sections": ["about.main"]
+  }
+]

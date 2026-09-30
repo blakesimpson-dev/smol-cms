@@ -1,0 +1,42 @@
+{
+  "name": "smol-cms",
+  "lang": "en",
+  "ogLocale": "en_GB",
+  "defaultTitle": "smol-cms — a tiny CMS template",
+  "defaultDescription": "A minimal site with a password-protected admin for editing content and images.",
+  "logo": {
+    "src": "/assets/images/logo.png",
+    "alt": "smol-cms",
+    "width": 390,
+    "height": 100
+  },
+  "nav": [
+    {
+      "label": "Home",
+      "href": "/"
+    },
+    {
+      "label": "Gallery",
+      "href": "/gallery"
+    },
+    {
+      "label": "About",
+      "href": "/about"
+    },
+    {
+      "label": "Contact",
+      "href": "/#contact"
+    }
+  ],
+  "cta": {
+    "label": "Get in touch",
+    "href": "/#contact"
+  },
+  "globalSections": ["site.footer"],
+  "support": {
+    "name": "your web developer",
+    "email": "",
+    "phone": ""
+  },
+  "redirects": {}
+}
