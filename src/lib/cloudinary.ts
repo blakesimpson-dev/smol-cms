@@ -1,15 +1,12 @@
 import {createHash} from 'node:crypto';
-import type {ImageValue} from './schema';
 import {env} from './env';
-
-const WIDTHS = [480, 800, 1200, 1600, 2400];
 
 export function cloudName(): string | undefined {
   return env('CLOUDINARY_CLOUD_NAME');
 }
 
 export function uploadFolder(isProd: boolean): string {
-  const root = env('CLOUDINARY_FOLDER') ?? 'cms-lite';
+  const root = env('CLOUDINARY_FOLDER') ?? 'smol-cms';
   return `${root}/${isProd ? 'production' : 'preview'}`;
 }
 
@@ -59,28 +56,4 @@ export function uploadRequest(isProd: boolean): UploadRequest | null {
     url: `https://api.cloudinary.com/v1_1/${cloud}/image/upload`,
     fields: {...params, api_key: apiKey, signature: signParams(params, secret)},
   };
-}
-
-interface UrlOpts {
-  width?: number;
-  height?: number;
-}
-
-export function imgUrl(id: string, {width, height}: UrlOpts = {}): string {
-  const t = ['f_auto', 'q_auto'];
-  if (width) {
-    t.push(`w_${String(width)}`);
-  }
-  if (height) {
-    t.push(`h_${String(height)}`, 'c_fill', 'g_auto');
-  }
-  return `https://res.cloudinary.com/${cloudName() ?? ''}/image/upload/${t.join(',')}/${id}`;
-}
-
-export function srcset(img: ImageValue, maxWidth = 2400): string {
-  const limit = Math.min(maxWidth, img.width || maxWidth);
-  const widths = WIDTHS.filter(w => w < limit).concat(limit);
-  return widths
-    .map(w => `${imgUrl(img.id, {width: w})} ${String(w)}w`)
-    .join(', ');
 }

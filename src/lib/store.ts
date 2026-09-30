@@ -1,5 +1,6 @@
 import {getStore} from '@netlify/blobs';
-import {defaults, getSectionDef, type SectionData} from './schema';
+import type {SectionData} from '../content/types';
+import {defaults, getSectionDef} from './sections';
 
 interface Stored {
   data: SectionData;

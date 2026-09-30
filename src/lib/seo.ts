@@ -1,9 +1,10 @@
+import {SITE} from '../content';
+import type {ImageValue, Page, SectionData} from '../content/types';
+import type {Meta} from '../components/document';
+import {imgUrl} from './images';
 import type {Deploy} from './env';
-import {imgUrl} from './cloudinary';
-import {getSectionDef, type ImageValue, type SectionData} from './schema';
-import {site, type Page} from './site';
-import {img, imgs, str} from './views/public/components';
-import type {Meta} from './views/document';
+import {getSectionDef, pageSectionKeys} from './sections';
+import {img, imgs, str} from './values';
 
 const DESCRIPTION_LENGTH = 155;
 
@@ -32,7 +33,7 @@ function leadContent(
 ): {text: string; image: ImageValue | null} {
   let text = '';
   let image: ImageValue | null = null;
-  for (const key of [...page.sections, ...(page.uses ?? [])]) {
+  for (const key of pageSectionKeys(page)) {
     const section = getSectionDef(key);
     const values = data[key] as SectionData | undefined;
     if (!section || !values) {
@@ -63,9 +64,9 @@ export function pageMeta(
   return {
     title:
       page.title ??
-      (isHome ? site.defaultTitle : `${page.label} · ${site.name}`),
+      (isHome ? SITE.defaultTitle : `${page.label} · ${SITE.name}`),
     description:
-      page.description ?? (excerpt(lead.text) || site.defaultDescription),
+      page.description ?? (excerpt(lead.text) || SITE.defaultDescription),
     canonical: deploy.siteUrl + page.path,
     image: lead.image
       ? imgUrl(lead.image.id, {width: 1200, height: 630})
@@ -76,7 +77,7 @@ export function pageMeta(
       ? {
           '@context': 'https://schema.org',
           '@type': 'WebSite',
-          name: site.name,
+          name: SITE.name,
           url: deploy.siteUrl + '/',
         }
       : undefined,

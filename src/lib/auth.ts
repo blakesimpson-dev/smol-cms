@@ -14,7 +14,13 @@ import {getAuthRecord, saveAuthRecord} from './store';
 const COOKIE = 'cms_session';
 const MAX_AGE = 60 * 60 * 24 * 7;
 const KEY_LENGTH = 64;
+const FAILED_AUTH_DELAY_MS = 750;
 export const MIN_PASSWORD_LENGTH = 12;
+
+// Slows down password guessing
+export function failedAuthDelay(): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, FAILED_AUTH_DELAY_MS));
+}
 
 export function authConfigured(): boolean {
   return Boolean(env('ADMIN_PASSWORD') && env('SESSION_SECRET'));
@@ -140,13 +146,9 @@ export const requireAuth = createMiddleware<AppEnv>(async (c, next) => {
     await next();
     return;
   }
-  if (c.req.header('HX-Request')) {
-    // Session expired mid-edit: make htmx do a full-page redirect
-    c.header('HX-Redirect', '/admin/login');
-    return c.body(null, 401);
-  }
-  // fetch() calls need a status they can detect, not a redirect
-  if (c.req.method !== 'GET') {
+  // Saves and uploads get a status, not a redirect, so an expired session
+  // doesn't navigate away from unsaved edits; the page shows a message
+  if (c.req.method !== 'GET' || c.req.header('HX-Request')) {
     return c.body(null, 401);
   }
 
