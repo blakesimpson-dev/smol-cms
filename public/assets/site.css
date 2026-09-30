@@ -1,0 +1,111 @@
+/* Small additions on top of Pico CSS (https://picocss.com). */
+
+img {
+  height: auto;
+  border-radius: var(--pico-border-radius);
+}
+
+/* Public */
+.hero img {
+  width: 100%;
+  max-height: 70vh;
+  object-fit: cover;
+  margin-bottom: var(--pico-spacing);
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  gap: var(--pico-spacing);
+}
+
+.gallery img {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+}
+
+article > img {
+  margin-bottom: var(--pico-spacing);
+}
+
+body > footer {
+  padding-block: calc(var(--pico-spacing) * 2);
+}
+
+/* Admin */
+.admin form.inline {
+  margin: 0;
+}
+
+.admin form.inline button {
+  margin: 0;
+  padding: 0.35rem 0.8rem;
+}
+
+.admin .narrow {
+  max-width: 28rem;
+  margin-inline: auto;
+}
+
+.admin .cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+  gap: var(--pico-spacing);
+}
+
+.admin .card {
+  text-decoration: none;
+}
+
+.admin .card article {
+  margin: 0;
+  height: 100%;
+}
+
+.admin .card:hover article {
+  outline: 2px solid var(--pico-primary);
+}
+
+.admin small.error {
+  color: var(--pico-del-color);
+}
+
+.admin .form-footer {
+  display: flex;
+  align-items: center;
+  gap: var(--pico-spacing);
+}
+
+.admin .form-footer button {
+  margin: 0;
+}
+
+.admin .img-list {
+  display: grid;
+  gap: 0.5rem;
+  margin-bottom: var(--pico-spacing);
+}
+
+.admin .img-list:empty {
+  display: none;
+}
+
+.admin .img-item {
+  display: grid;
+  grid-template-columns: 120px 1fr auto;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.admin .img-item img {
+  width: 120px;
+  height: 80px;
+  object-fit: cover;
+  background: var(--pico-muted-border-color);
+}
+
+.admin .img-item input,
+.admin .img-item button {
+  margin: 0;
+}
