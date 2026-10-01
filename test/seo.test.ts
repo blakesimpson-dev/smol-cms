@@ -45,6 +45,13 @@ test('canonical url and share image come from the page', () => {
   assert.ok(meta.image?.startsWith('/assets/images/defaults/gallery-1'));
 });
 
+test('later pages of a paginated view get their own title and canonical', () => {
+  const meta = pageMeta(page('gallery'), homeData(''), DEPLOY, 2);
+
+  assert.equal(meta.canonical, 'https://example.com/gallery?page=2');
+  assert.match(meta.title, / · Page 2$/);
+});
+
 test('previews are kept out of search engines', () => {
   assert.equal(
     robotsTxt({...DEPLOY, isProd: false}),

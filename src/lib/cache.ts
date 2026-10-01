@@ -11,6 +11,8 @@ export function edgeCache(c: Context): void {
     'public, durable, s-maxage=31536000, stale-while-revalidate=60',
   );
   c.header('Netlify-Cache-Tag', CACHE_TAG);
+  // Gallery pages are cached separately; other query strings share an entry
+  c.header('Netlify-Vary', 'query=page');
 }
 
 export async function purgeContentCache(): Promise<void> {

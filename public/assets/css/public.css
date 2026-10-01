@@ -507,3 +507,43 @@ body:has(.menu-panel:popover-open) {
   object-fit: cover;
   object-position: center 25%;
 }
+
+.pager {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.pager > * {
+  display: inline-grid;
+  place-items: center;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  padding-inline: 0.75rem;
+  border-radius: var(--pico-border-radius);
+}
+
+.pager a {
+  border: 1px solid var(--pico-muted-border-color);
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.pager a:hover {
+  border-color: var(--brand);
+  color: var(--brand);
+}
+
+.pager a[aria-current='page'] {
+  border-color: var(--brand);
+  background: var(--brand);
+  color: #fff;
+}
+
+/* The arrow with nowhere to go, and the gap between page numbers */
+.pager span {
+  color: var(--pico-muted-color);
+}
