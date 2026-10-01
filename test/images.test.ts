@@ -24,5 +24,16 @@ test('srcset never offers widths beyond the original image', () => {
     .split(', ')
     .map(entry => entry.split(' ')[1]);
 
-  assert.deepEqual(widths, ['480w', '800w', '1000w']);
+  assert.deepEqual(widths, ['320w', '480w', '640w', '800w', '1000w']);
+});
+
+test('srcset crops every candidate to the requested aspect ratio', () => {
+  const entries = srcset(
+    {id: 'a', alt: '', width: 3000, height: 4000},
+    640,
+    4 / 3,
+  ).split(', ');
+
+  assert.equal(entries.length, 3);
+  assert.match(entries[2], /w_640,h_480,c_fill,g_auto\/a 640w$/);
 });
