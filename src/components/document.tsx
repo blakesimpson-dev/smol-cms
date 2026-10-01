@@ -76,6 +76,7 @@ export function Document({meta, stylesheet, head, children}: DocumentProps) {
             <SocialMeta meta={meta} canonical={meta.canonical} />
           )}
           <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+          <link rel="preconnect" href="https://res.cloudinary.com" />
           <link
             rel="preload"
             href={HEADING_FONT}
