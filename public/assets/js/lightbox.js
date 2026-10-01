@@ -64,7 +64,7 @@ function build() {
 }
 
 document.addEventListener('click', e => {
-  const link = e.target.closest('[data-lightbox] a');
+  const link = e.target.closest('[data-lightbox] figure > a');
   if (!link || e.metaKey || e.ctrlKey) {
     return;
   }
@@ -72,7 +72,7 @@ document.addEventListener('click', e => {
   if (!dialog) {
     build();
   }
-  links = [...link.closest('[data-lightbox]').querySelectorAll('a')];
+  links = [...link.closest('[data-lightbox]').querySelectorAll('figure > a')];
   show(links.indexOf(link));
   dialog.showModal();
 });
