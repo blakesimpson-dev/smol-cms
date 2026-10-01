@@ -5,12 +5,13 @@ import {PublicLayout} from '../components/public/layout';
 import type {FooterContent} from '../components/public/site_footer';
 import {edgeCache} from '../lib/cache';
 import type {AppEnv} from '../lib/env';
+import {parsePage} from '../lib/pagination';
 import {pageSectionKeys} from '../lib/sections';
 import {pageMeta} from '../lib/seo';
 import {getSections} from '../lib/store';
 import {str} from '../lib/values';
 import {NotFound} from '../pages/public/not_found';
-import {PageView} from '../pages/public/page_view';
+import {PageView, viewPageCount} from '../pages/public/page_view';
 
 export const publicRoutes = new Hono<AppEnv>();
 
@@ -34,17 +35,29 @@ async function loadData(
 
 for (const page of PAGES) {
   publicRoutes.get(page.path, async c => {
+    const raw = c.req.query('page');
+    // One URL per page: `?page=1` is the bare path
+    if (raw === '1') {
+      return c.redirect(page.path, 301);
+    }
+    const pageNumber = parsePage(raw);
+    if (pageNumber === null) {
+      return notFound(c);
+    }
     const data = await loadData(c.var.deploy.isProd, pageSectionKeys(page));
+    if (pageNumber > viewPageCount(page.key, data)) {
+      return notFound(c);
+    }
     edgeCache(c);
 
     return c.html(
       <PublicLayout
-        meta={pageMeta(page, data, c.var.deploy)}
+        meta={pageMeta(page, data, c.var.deploy, pageNumber)}
         currentPath={page.path}
         footer={footerContent(data)}
         overlayHeader={page.path === '/'}
       >
-        <PageView pageKey={page.key} s={data} />
+        <PageView page={page} pageNumber={pageNumber} s={data} />
       </PublicLayout>,
     );
   });

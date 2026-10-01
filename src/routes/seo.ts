@@ -2,9 +2,11 @@ import {Hono} from 'hono';
 import {PAGES} from '../content';
 import {edgeCache} from '../lib/cache';
 import type {AppEnv} from '../lib/env';
+import {pageHref} from '../lib/pagination';
 import {pageSectionKeys} from '../lib/sections';
 import {robotsTxt, sitemapXml} from '../lib/seo';
 import {getSections} from '../lib/store';
+import {viewPageCount} from '../pages/public/page_view';
 
 export const seoRoutes = new Hono<AppEnv>();
 
@@ -23,13 +25,23 @@ seoRoutes.get('/sitemap.xml', async c => {
         .map(s => s.updatedAt)
         .filter((d): d is string => d !== null)
         .sort();
+      const data = Object.fromEntries(
+        Object.entries(loaded).map(([k, v]) => [k, v.data]),
+      );
 
-      return {url: siteUrl + page.path, lastmod: dates.at(-1) ?? null};
+      const pages = viewPageCount(page.key, data);
+      const lastmod = dates.at(-1) ?? null;
+
+      // Every page of a paginated view gets its own entry
+      return Array.from({length: pages}, (unused, i) => ({
+        url: siteUrl + pageHref(page.path, i + 1),
+        lastmod,
+      }));
     }),
   );
   edgeCache(c);
 
-  return c.body(sitemapXml(entries), 200, {
+  return c.body(sitemapXml(entries.flat()), 200, {
     'Content-Type': 'application/xml; charset=utf-8',
   });
 });

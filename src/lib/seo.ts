@@ -2,6 +2,7 @@ import {SITE} from '../content';
 import type {ImageValue, Page, SectionData} from '../content/types';
 import type {Meta} from '../components/document';
 import {imgUrl} from './images';
+import {pageHref} from './pagination';
 import type {Deploy} from './env';
 import {getSectionDef, pageSectionKeys} from './sections';
 import {img, imgs, str} from './values';
@@ -57,17 +58,19 @@ export function pageMeta(
   page: Page,
   data: Record<string, SectionData>,
   deploy: Deploy,
+  pageNumber = 1,
 ): Meta {
   const isHome = page.path === '/';
   const lead = leadContent(page, data);
+  const title =
+    page.title ?? (isHome ? SITE.defaultTitle : `${page.label} · ${SITE.name}`);
 
   return {
-    title:
-      page.title ??
-      (isHome ? SITE.defaultTitle : `${page.label} · ${SITE.name}`),
+    // Later pages of a paginated view are separate pages for search engines
+    title: pageNumber > 1 ? `${title} · Page ${String(pageNumber)}` : title,
     description:
       page.description ?? (excerpt(lead.text) || SITE.defaultDescription),
-    canonical: deploy.siteUrl + page.path,
+    canonical: deploy.siteUrl + pageHref(page.path, pageNumber),
     image: lead.image
       ? imgUrl(lead.image.id, {width: 1200, height: 630})
       : undefined,
