@@ -11,7 +11,8 @@ function show(i) {
   index = (i + links.length) % links.length;
   const link = links[index];
   const thumb = link.querySelector('img');
-  image.srcset = thumb.srcset;
+  // Thumbnails are cropped; the link carries the full-frame srcset
+  image.srcset = link.dataset.srcset || thumb.srcset;
   image.src = link.href;
   image.alt = thumb.alt;
   caption.textContent = link.dataset.caption || '';
