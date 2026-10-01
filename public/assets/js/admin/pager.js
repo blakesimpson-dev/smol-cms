@@ -1,9 +1,30 @@
 // Long image lists show one page at a time. Hidden items are still in the
 // form, so saving always posts the whole list
-const PAGE_SIZE = 24;
+const PAGE_SIZE = 12;
+// Page buttons shown either side of the current one before a gap (…)
+const PAGE_SPREAD = 1;
 
 function pageCount(list) {
   return Math.ceil(list.children.length / PAGE_SIZE);
+}
+
+// 1 … 4 5 6 … 9: first, last and the pages around the current one
+function pageNumbers(current, pages) {
+  const numbers = [];
+  for (let n = 1; n <= pages; n++) {
+    const near = Math.abs(n - current) <= PAGE_SPREAD;
+    if (n === 1 || n === pages || near) {
+      numbers.push(n);
+    } else if (numbers.at(-1) !== null) {
+      numbers.push(null);
+    }
+  }
+
+  return numbers;
+}
+
+function pageButton(page, label, attrs = '') {
+  return `<button type="button" class="outline secondary" data-page="${page}" ${attrs}>${label}</button>`;
 }
 
 function renderPager(field, current, pages) {
@@ -14,10 +35,29 @@ function renderPager(field, current, pages) {
     pager.setAttribute('aria-label', 'Image pages');
     field.querySelector('.item-list').after(pager);
   }
-  pager.innerHTML = `
-    <button type="button" class="outline secondary" data-page="${current - 1}" aria-label="Previous page" ${current === 1 ? 'disabled' : ''}>‹</button>
-    <span>${current} / ${pages}</span>
-    <button type="button" class="outline secondary" data-page="${current + 1}" aria-label="Next page" ${current === pages ? 'disabled' : ''}>›</button>`;
+  const numbers = pageNumbers(current, pages).map(n => {
+    if (n === null) {
+      return '<span class="gap" aria-hidden="true">…</span>';
+    }
+    if (n === current) {
+      return `<button type="button" aria-current="page" aria-label="Page ${n}" disabled>${n}</button>`;
+    }
+
+    return pageButton(n, n, `aria-label="Page ${n}"`);
+  });
+  pager.innerHTML = [
+    pageButton(
+      current - 1,
+      '‹',
+      `aria-label="Previous page" ${current === 1 ? 'disabled' : ''}`,
+    ),
+    ...numbers,
+    pageButton(
+      current + 1,
+      '›',
+      `aria-label="Next page" ${current === pages ? 'disabled' : ''}`,
+    ),
+  ].join('');
 }
 
 export function showPage(field, page) {
