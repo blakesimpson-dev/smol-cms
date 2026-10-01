@@ -22,7 +22,8 @@ function page(key: string): Page {
 }
 
 test('description is inferred from the first text block, cut at a word', () => {
-  const meta = pageMeta(page('home'), homeData('word '.repeat(60)), DEPLOY);
+  const home = {...page('home'), description: undefined};
+  const meta = pageMeta(home, homeData('word '.repeat(60)), DEPLOY);
 
   assert.ok(meta.description);
   assert.ok(meta.description.length <= 156);
