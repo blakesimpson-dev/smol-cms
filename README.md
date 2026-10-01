@@ -21,15 +21,15 @@ cloned as the starting point for small business sites.
 - **Storage:** Netlify Blobs, with separate content for previews and production
 - **Images:** Cloudinary; photos are resized on the device and uploaded
   directly, with drag and drop, progress and retry
-- **Admin:** mobile-first, single password with change and reset, unsaved
-  change protection
+- **Admin:** mobile-first, single password with change and reset, unsaved change
+  protection
 - **Site:** responsive layout, lightbox gallery, Netlify Forms contact form,
   inferred SEO tags, sitemap and robots
 
 ## Build and run
 
-Requires Node 24 (see `.nvmrc`), the Netlify CLI (`npm i -g netlify-cli`) and
-a free Cloudinary account for uploads.
+Requires Node 24 (see `.nvmrc`), the Netlify CLI (`npm i -g netlify-cli`) and a
+free Cloudinary account for uploads.
 
 ```bash
 git clone https://github.com/blakesimpson-dev/smol-cms.git
