@@ -9,13 +9,15 @@ import {
   SITE_SCHEMA,
 } from './types';
 
-// Parsed at startup so a mistake in the JSON fails loudly with its path
+/** Parsed at startup so a mistake in the JSON fails loudly with its path */
 export const SITE = SITE_SCHEMA.parse(site);
 export const PAGES = PAGE_SCHEMA.array().parse(pages);
 export const SECTIONS = SECTION_SCHEMA.array().parse(sections);
 export const CONTACT_FORM = CONTACT_FORM_SCHEMA.parse(contactForm);
 
-// The footer component reads this global section's `text` and `email` fields
+/**
+ * The footer component reads this global section's `text` and `email` fields
+ */
 export const FOOTER_SECTION = 'site.footer';
 
 function referenceProblems(): string[] {

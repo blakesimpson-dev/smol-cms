@@ -3,7 +3,7 @@ import type {Context} from 'hono';
 
 const CACHE_TAG = 'content';
 
-// Cached at Netlify's edge until content changes or a new deploy
+/** Cached at Netlify's edge until content changes or a new deploy */
 export function edgeCache(c: Context): void {
   c.header('Cache-Control', 'public, max-age=0, must-revalidate');
   c.header(

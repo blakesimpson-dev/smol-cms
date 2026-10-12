@@ -27,7 +27,7 @@ function excerpt(text: string): string {
   return `${cut.slice(0, cut.lastIndexOf(' '))}…`;
 }
 
-// The first text block and first image on the page, in section order
+/** The first text block and first image on the page, in section order */
 function leadContent(
   page: Page,
   data: Record<string, SectionData>,

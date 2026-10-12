@@ -12,8 +12,10 @@ export interface LoadedSection {
   updatedAt: string | null;
 }
 
-// Site-wide stores are shared by every deploy, so previews get their own to
-// avoid editing production content by accident
+/**
+ * Site-wide stores are shared by every deploy, so previews get their own to
+ * avoid editing production content by accident
+ */
 function contentStore(isProd: boolean) {
   return getStore({
     name: isProd ? 'content' : 'content-preview',

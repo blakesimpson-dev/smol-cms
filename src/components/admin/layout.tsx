@@ -4,7 +4,7 @@ import {Document} from '../document';
 import {MenuIcon} from '../icons';
 
 const HTMX = '/assets/js/vendor/htmx.min.js';
-// htmx's injected indicator <style> would be blocked by the CSP
+/** htmx's injected indicator <style> would be blocked by the CSP */
 const HTMX_CONFIG = JSON.stringify({includeIndicatorStyles: false});
 const MENU_ID = 'admin-menu';
 
@@ -46,7 +46,7 @@ function AccountLinks() {
   );
 }
 
-// Phones get the same links in a dropdown, using a native popover
+/** Phones get the same links in a dropdown, using a native popover */
 function AccountMenu() {
   return (
     <>

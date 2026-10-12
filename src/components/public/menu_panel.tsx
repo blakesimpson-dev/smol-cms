@@ -8,8 +8,10 @@ interface MenuPanelProps {
   copyright: string;
 }
 
-// A native popover: opening, closing, Esc and focus handling need no script.
-// menu.js only closes it when a link targets the current page
+/**
+ * A native popover: opening, closing, Esc and focus handling need no script.
+ * menu.js only closes it when a link targets the current page
+ */
 export function MenuPanel({currentPath, copyright}: MenuPanelProps) {
   return (
     <div id={MENU_ID} popover="auto" class="menu-panel">

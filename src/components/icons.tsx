@@ -1,4 +1,4 @@
-// Stroked with currentColor, so they take the text colour of their button
+/** Stroked with currentColor, so they take the text colour of their button */
 function Icon({path, size = 28}: {path: string; size?: number}) {
   return (
     <svg

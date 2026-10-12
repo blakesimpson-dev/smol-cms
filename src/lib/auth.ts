@@ -17,7 +17,7 @@ const KEY_LENGTH = 64;
 const FAILED_AUTH_DELAY_MS = 750;
 export const MIN_PASSWORD_LENGTH = 12;
 
-// Slows down password guessing
+/** Slows down password guessing */
 export function failedAuthDelay(): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, FAILED_AUTH_DELAY_MS));
 }
@@ -60,8 +60,10 @@ function sha256(s: string): Buffer {
   return createHash('sha256').update(s).digest();
 }
 
-// A password changed in the admin takes precedence; deleting it restores the
-// ADMIN_PASSWORD env var, which is how a forgotten password gets reset
+/**
+ * A password changed in the admin takes precedence; deleting it restores the
+ * ADMIN_PASSWORD env var, which is how a forgotten password gets reset
+ */
 export async function checkPassword(
   isProd: boolean,
   input: string,

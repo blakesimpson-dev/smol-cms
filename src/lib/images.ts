@@ -3,7 +3,7 @@ import {cloudName} from './cloudinary';
 
 const CLOUDINARY_WIDTHS = [320, 480, 640, 800, 1200, 1600, 2400];
 
-// Local defaults ship as `<id>-<width>.jpg` in these widths
+/** Local defaults ship as `<id>-<width>.jpg` in these widths */
 const LOCAL_WIDTHS = [800, 1600, 2400];
 
 interface UrlOpts {
@@ -36,8 +36,10 @@ export function imgUrl(id: string, {width, height}: UrlOpts = {}): string {
   return `https://res.cloudinary.com/${cloudName() ?? ''}/image/upload/${t.join(',')}/${id}`;
 }
 
-// Height for a width at the given aspect ratio (width / height), so
-// Cloudinary crops server-side instead of the browser discarding pixels
+/**
+ * Height for a width at the given aspect ratio (width / height), so
+ * Cloudinary crops server-side instead of the browser discarding pixels
+ */
 export function heightFor(width: number, aspect?: number): number | undefined {
   return aspect ? Math.round(width / aspect) : undefined;
 }

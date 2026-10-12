@@ -1,7 +1,9 @@
 import {CONTACT_FORM} from '../../content';
 
-// Netlify Forms handles the POST: /thanks is a static page, which is where
-// the form definition gets detected at deploy time
+/**
+ * Netlify Forms handles the POST: /thanks is a static page, which is where
+ * the form definition gets detected at deploy time
+ */
 export function ContactForm() {
   return (
     <form

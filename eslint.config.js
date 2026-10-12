@@ -5,7 +5,7 @@ import globals from 'globals';
 import tseslint from 'typescript-eslint';
 import {defineConfig} from 'eslint/config';
 
-import {GOOGLE_TS_RULES} from './eslint.gts.js';
+import {GOOGLE_TS_PLUGINS, GOOGLE_TS_RULES} from './eslint.gts.js';
 
 const TS_FILES = ['**/*.{ts,tsx}'];
 
@@ -25,7 +25,7 @@ export default defineConfig([
         tsconfigRootDir: import.meta.dirname,
       },
     },
-    plugins: {'check-file': checkFile},
+    plugins: {...GOOGLE_TS_PLUGINS, 'check-file': checkFile},
     rules: {
       ...GOOGLE_TS_RULES,
       'check-file/filename-naming-convention': [

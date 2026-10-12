@@ -1,4 +1,4 @@
-// Pages before and after the current one shown in a pager before a gap
+/** Pages before and after the current one shown in a pager before a gap */
 const PAGE_SPREAD = 1;
 
 export interface Paged<T> {
@@ -7,7 +7,7 @@ export interface Paged<T> {
   pages: number;
 }
 
-// `?page=` as a positive whole number; missing means page 1, junk is null
+/** `?page=` as a positive whole number; missing means page 1, junk is null */
 export function parsePage(raw: string | undefined): number | null {
   if (raw === undefined) {
     return 1;
@@ -28,13 +28,15 @@ export function paginate<T>(items: T[], page: number, size: number): Paged<T> {
   };
 }
 
-// Page 1 is the bare path, so it has a single URL
+/** Page 1 is the bare path, so it has a single URL */
 export function pageHref(path: string, page: number): string {
   return page === 1 ? path : `${path}?page=${String(page)}`;
 }
 
-// First, last and the pages around the current one; null marks a gap,
-// e.g. 1 … 4 5 6 … 9
+/**
+ * First, last and the pages around the current one; null marks a gap,
+ * e.g. 1 … 4 5 6 … 9
+ */
 export function pageNumbers(
   current: number,
   pages: number,

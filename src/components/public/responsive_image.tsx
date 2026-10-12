@@ -6,7 +6,7 @@ interface ResponsiveImageProps {
   sizes?: string;
   priority?: boolean;
   maxWidth?: number;
-  // Width / height to crop to, e.g. 4 / 3; omit to keep the original shape
+  /** Width / height to crop to, e.g. 4 / 3; omit to keep the original shape */
   aspect?: number;
   class?: string;
 }

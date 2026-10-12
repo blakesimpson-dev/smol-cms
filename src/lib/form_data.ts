@@ -2,8 +2,10 @@ import type {Section} from '../content/types';
 
 type FormBody = Record<string, string | File | Array<string | File>>;
 
-// Repeated fields post one input per item (`<field>.<key>`), zipped by index.
-// Featured checkboxes post the image id, since unchecked boxes send nothing
+/**
+ * Repeated fields post one input per item (`<field>.<key>`), zipped by index.
+ * Featured checkboxes post the image id, since unchecked boxes send nothing
+ */
 export function fromForm(
   section: Section,
   body: FormBody,
@@ -42,7 +44,7 @@ export function fromForm(
     } else if (f.type === 'list') {
       const columns = f.fields.map(sub => all(`${f.name}.${sub.name}`));
       const count = Math.max(0, ...columns.map(c => c.length));
-      out[f.name] = [...Array(count).keys()].map(i =>
+      out[f.name] = Array.from({length: count}, (unused, i) =>
         Object.fromEntries(
           f.fields.map((sub, j) => [sub.name, columns[j]?.[i] ?? '']),
         ),

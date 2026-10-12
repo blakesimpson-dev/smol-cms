@@ -7,12 +7,12 @@ import {Home} from './home';
 
 interface PageViewProps {
   page: Page;
-  // Which page of a paginated view, from `?page=`
+  /** Which page of a paginated view, from `?page=` */
   pageNumber: number;
   s: Record<string, SectionData>;
 }
 
-// How many `?page=` pages a view has; views that don't paginate have one
+/** How many `?page=` pages a view has; views that don't paginate have one */
 export function viewPageCount(
   pageKey: string,
   s: Record<string, SectionData>,

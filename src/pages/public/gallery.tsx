@@ -5,7 +5,7 @@ import {Paragraphs} from '../../components/public/paragraphs';
 import {paginate} from '../../lib/pagination';
 import {imgs, str} from '../../lib/values';
 
-// Six rows of three on desktop, nine rows of two on phones
+/** Six rows of three on desktop, nine rows of two on phones */
 export const GALLERY_PAGE_SIZE = 18;
 
 interface GalleryProps {

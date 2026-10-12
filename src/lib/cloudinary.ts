@@ -10,7 +10,7 @@ export function uploadFolder(isProd: boolean): string {
   return `${root}/${isProd ? 'production' : 'preview'}`;
 }
 
-// https://cloudinary.com/documentation/authentication_signatures
+/** https://cloudinary.com/documentation/authentication_signatures */
 export function signParams(
   params: Record<string, unknown>,
   apiSecret: string,
@@ -37,7 +37,7 @@ export interface UploadRequest {
   fields: Record<string, string>;
 }
 
-// Signed parameters for one direct browser upload; the secret stays here
+/** Signed parameters for one direct browser upload; the secret stays here */
 export function uploadRequest(isProd: boolean): UploadRequest | null {
   const cloud = cloudName();
   const apiKey = env('CLOUDINARY_API_KEY');

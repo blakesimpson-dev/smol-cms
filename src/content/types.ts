@@ -1,7 +1,9 @@
 import {z} from 'zod';
 
-// Image ids are Cloudinary public ids, or a local path (starting with `/`)
-// for defaults shipped in public/assets/images
+/**
+ * Image ids are Cloudinary public ids, or a local path (starting with `/`)
+ * for defaults shipped in public/assets/images
+ */
 const IMAGE_VALUE_SCHEMA = z.object({
   id: z.string(),
   alt: z.string(),

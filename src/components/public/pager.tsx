@@ -6,7 +6,7 @@ interface PagerProps {
   pages: number;
 }
 
-// Plain links, so every page works without JavaScript and can be crawled
+/** Plain links, so every page works without JavaScript and can be crawled */
 export function Pager({path, page, pages}: PagerProps) {
   if (pages <= 1) {
     return null;

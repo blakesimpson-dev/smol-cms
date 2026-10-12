@@ -7,7 +7,7 @@ import {adminRoutes} from './routes/admin';
 import {notFound, publicRoutes} from './routes/public';
 import {seoRoutes} from './routes/seo';
 
-// Everything is self-hosted except Cloudinary images and direct uploads
+/** Everything is self-hosted except Cloudinary images and direct uploads */
 const CSP = {
   defaultSrc: ["'self'"],
   imgSrc: ["'self'", 'data:', 'blob:', 'https://res.cloudinary.com'],

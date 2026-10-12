@@ -8,7 +8,7 @@ interface TextInputProps {
   error?: string | undefined;
 }
 
-// Updated live by public/assets/js/admin/counter.js
+/** Updated live by public/assets/js/admin/counter.js */
 function Counter({length, recommended}: {length: number; recommended: number}) {
   const over = length > recommended;
 

@@ -4,8 +4,10 @@ import {getFieldDef} from './sections';
 
 const DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
 
-// Cloudinary public ids, or local paths for the bundled defaults. Anything
-// that could point at another host (`//`, a scheme) or escape a path is out
+/**
+ * Cloudinary public ids, or local paths for the bundled defaults. Anything
+ * that could point at another host (`//`, a scheme) or escape a path is out
+ */
 const UNSAFE_IMAGE_ID = /^\/\/|:|\.\.|["'<>\\]/;
 
 const IMAGE_SCHEMA = z.object({
@@ -80,6 +82,11 @@ function fieldSchema(f: Field): z.ZodType {
 
       return s;
     }
+    default: {
+      // Every field type has a case above, so `f` is never here
+      const unknownField: never = f;
+      throw new Error(`Unknown field: ${JSON.stringify(unknownField)}`);
+    }
   }
 }
 
@@ -89,7 +96,7 @@ export function sectionSchema(section: Section) {
   );
 }
 
-// First message per field, prefixed with the item for repeated fields
+/** First message per field, prefixed with the item for repeated fields */
 export function fieldErrors(
   section: Section,
   error: z.ZodError,
