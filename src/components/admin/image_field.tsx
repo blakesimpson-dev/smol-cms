@@ -8,7 +8,7 @@ type ImageFieldDef = Extract<Field, {type: 'image' | 'images'}>;
 interface ImageFieldProps {
   field: ImageFieldDef;
   value: unknown;
-  error?: string;
+  error?: string | undefined;
 }
 
 function asImages(v: unknown): Array<Partial<ImageValue>> {

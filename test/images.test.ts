@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {test} from 'node:test';
 import {imgUrl, srcset} from '../src/lib/images';
 
-process.env.CLOUDINARY_CLOUD_NAME = 'demo';
+process.env['CLOUDINARY_CLOUD_NAME'] = 'demo';
 
 test('local defaults use the smallest shipped width that covers the request', () => {
   const id = '/assets/images/defaults/hero';
@@ -35,5 +35,5 @@ test('srcset crops every candidate to the requested aspect ratio', () => {
   ).split(', ');
 
   assert.equal(entries.length, 3);
-  assert.match(entries[2], /w_640,h_480,c_fill,g_auto\/a 640w$/);
+  assert.match(entries[2] ?? '', /w_640,h_480,c_fill,g_auto\/a 640w$/);
 });

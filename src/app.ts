@@ -28,7 +28,7 @@ app.use(async (c, next) => {
   if (to) {
     return c.redirect(to, 301);
   }
-  await next();
+  return next();
 });
 
 app.route('/', publicRoutes);

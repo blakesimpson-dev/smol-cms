@@ -36,7 +36,7 @@ function leadContent(
   let image: ImageValue | null = null;
   for (const key of pageSectionKeys(page)) {
     const section = getSectionDef(key);
-    const values = data[key] as SectionData | undefined;
+    const values = data[key];
     if (!section || !values) {
       continue;
     }

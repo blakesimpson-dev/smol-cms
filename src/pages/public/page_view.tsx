@@ -20,7 +20,7 @@ export function viewPageCount(
   switch (pageKey) {
     case 'gallery':
       return pageCount(
-        imgs(s['gallery.main'].images).length,
+        imgs(s['gallery.main']?.['images']).length,
         GALLERY_PAGE_SIZE,
       );
     default:

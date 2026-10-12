@@ -9,7 +9,7 @@ export function fromForm(
   body: FormBody,
 ): Record<string, unknown> {
   function all(key: string): string[] {
-    const v = body[key] as FormBody[string] | undefined;
+    const v = body[key];
     if (v === undefined) {
       return [];
     }
@@ -44,7 +44,7 @@ export function fromForm(
       const count = Math.max(0, ...columns.map(c => c.length));
       out[f.name] = [...Array(count).keys()].map(i =>
         Object.fromEntries(
-          f.fields.map((sub, j) => [sub.name, columns[j][i] ?? '']),
+          f.fields.map((sub, j) => [sub.name, columns[j]?.[i] ?? '']),
         ),
       );
     } else {

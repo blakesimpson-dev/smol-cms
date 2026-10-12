@@ -5,17 +5,17 @@ import {Testimonials} from '../../components/public/testimonials';
 import {img, list, str} from '../../lib/values';
 
 export function About({s}: {s: Record<string, SectionData>}) {
-  const about = s['about.main'];
-  const photo = img(about.image);
-  const testimonials = list(about.testimonials);
+  const about = s['about.main'] ?? {};
+  const photo = img(about['image']);
+  const testimonials = list(about['testimonials']);
 
   return (
     <>
       <section class="section">
         <div class={photo ? 'container split' : 'container'}>
           <div>
-            <h1>{str(about.heading)}</h1>
-            <Paragraphs text={str(about.body)} />
+            <h1>{str(about['heading'])}</h1>
+            <Paragraphs text={str(about['body'])} />
           </div>
           {photo && (
             <ResponsiveImage

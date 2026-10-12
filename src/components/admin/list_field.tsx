@@ -6,7 +6,7 @@ import {TextInput} from './text_input';
 interface ListFieldProps {
   field: ListFieldDef;
   value: unknown;
-  error?: string;
+  error?: string | undefined;
 }
 
 function ListItemRow({

@@ -5,7 +5,7 @@ interface TextInputProps {
   field: TextField;
   name: string;
   value: unknown;
-  error?: string;
+  error?: string | undefined;
 }
 
 // Updated live by public/assets/js/admin/counter.js

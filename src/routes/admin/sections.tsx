@@ -26,8 +26,8 @@ sectionRoutes.get('/edit/:group', async c => {
     .map(section => ({
       section,
       state: {
-        values: loaded[section.key].data,
-        updatedAt: loaded[section.key].updatedAt,
+        values: loaded[section.key]?.data ?? {},
+        updatedAt: loaded[section.key]?.updatedAt ?? null,
       },
     }));
 

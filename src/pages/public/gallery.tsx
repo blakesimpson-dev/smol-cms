@@ -15,14 +15,14 @@ interface GalleryProps {
 }
 
 export function Gallery({s, path, page}: GalleryProps) {
-  const gallery = s['gallery.main'];
-  const paged = paginate(imgs(gallery.images), page, GALLERY_PAGE_SIZE);
+  const gallery = s['gallery.main'] ?? {};
+  const paged = paginate(imgs(gallery['images']), page, GALLERY_PAGE_SIZE);
 
   return (
     <section class="section">
       <div class="container">
-        <h1>{str(gallery.heading)}</h1>
-        {page === 1 && <Paragraphs text={str(gallery.intro)} />}
+        <h1>{str(gallery['heading'])}</h1>
+        {page === 1 && <Paragraphs text={str(gallery['intro'])} />}
         <GalleryGrid images={paged.items} captions />
         <Pager path={path} page={paged.page} pages={paged.pages} />
       </div>

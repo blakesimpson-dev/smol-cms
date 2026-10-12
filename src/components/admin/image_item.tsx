@@ -4,10 +4,10 @@ import {ItemActions} from './item_actions';
 
 export interface ImageItemProps {
   name: string;
-  image?: Partial<ImageValue>;
+  image?: Partial<ImageValue> | undefined;
   multiple: boolean;
-  captions?: boolean;
-  featured?: boolean;
+  captions?: boolean | undefined;
+  featured?: boolean | undefined;
 }
 
 export function ImageItem({

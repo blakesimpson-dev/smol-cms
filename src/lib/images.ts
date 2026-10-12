@@ -7,8 +7,8 @@ const CLOUDINARY_WIDTHS = [320, 480, 640, 800, 1200, 1600, 2400];
 const LOCAL_WIDTHS = [800, 1600, 2400];
 
 interface UrlOpts {
-  width?: number;
-  height?: number;
+  width?: number | undefined;
+  height?: number | undefined;
 }
 
 function isLocal(id: string): boolean {

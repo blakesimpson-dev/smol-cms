@@ -5,7 +5,7 @@ import {MENU_ID, MenuPanel} from './menu_panel';
 interface SiteHeaderProps {
   currentPath: string;
   copyright: string;
-  overlay?: boolean;
+  overlay?: boolean | undefined;
 }
 
 export function SiteHeader({currentPath, copyright, overlay}: SiteHeaderProps) {

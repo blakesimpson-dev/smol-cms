@@ -48,16 +48,16 @@ test('errors name the item they belong to', () => {
     quotes: [{quote: ''}],
   });
 
-  assert.equal(errors.heading, 'Required');
-  assert.equal(errors.when, 'Enter a valid date');
-  assert.match(errors.gallery, /^Image 2: /);
-  assert.equal(errors.quotes, 'Testimonial 1: Required');
+  assert.equal(errors['heading'], 'Required');
+  assert.equal(errors['when'], 'Enter a valid date');
+  assert.match(errors['gallery'] ?? '', /^Image 2: /);
+  assert.equal(errors['quotes'], 'Testimonial 1: Required');
 });
 
 test('image ids that could point at another host are rejected', () => {
   for (const id of ['//evil.example/x', 'https://evil.example/x', 'a/../b']) {
     const errors = errorsFor({heading: 'Hi', gallery: [{...IMAGE, id}]});
-    assert.equal(errors.gallery, 'Image 1: Invalid image');
+    assert.equal(errors['gallery'], 'Image 1: Invalid image');
   }
 });
 

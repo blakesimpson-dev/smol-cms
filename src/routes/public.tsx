@@ -16,9 +16,9 @@ import {PageView, viewPageCount} from '../pages/public/page_view';
 export const publicRoutes = new Hono<AppEnv>();
 
 function footerContent(data: Record<string, SectionData>): FooterContent {
-  const footer = data[FOOTER_SECTION];
+  const footer = data[FOOTER_SECTION] ?? {};
 
-  return {text: str(footer.text), email: str(footer.email)};
+  return {text: str(footer['text']), email: str(footer['email'])};
 }
 
 async function loadData(

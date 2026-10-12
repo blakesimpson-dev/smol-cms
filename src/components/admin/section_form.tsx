@@ -6,15 +6,15 @@ import {TextInput} from './text_input';
 
 export interface FormState {
   values: Record<string, unknown>;
-  errors?: Record<string, string>;
-  saved?: boolean;
-  updatedAt?: string | null;
+  errors?: Record<string, string> | undefined;
+  saved?: boolean | undefined;
+  updatedAt?: string | null | undefined;
 }
 
 interface FieldInputProps {
   field: Field;
   value: unknown;
-  error?: string;
+  error?: string | undefined;
 }
 
 function FieldInput({field, value, error}: FieldInputProps) {

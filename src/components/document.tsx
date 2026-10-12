@@ -7,12 +7,12 @@ const HEADING_FONT = '/assets/fonts/poppins-latin-700-normal.woff2';
 
 export interface Meta {
   title: string;
-  description?: string;
-  canonical?: string;
-  image?: string;
-  imageAlt?: string;
-  noindex?: boolean;
-  jsonLd?: object;
+  description?: string | undefined;
+  canonical?: string | undefined;
+  image?: string | undefined;
+  imageAlt?: string | undefined;
+  noindex?: boolean | undefined;
+  jsonLd?: object | undefined;
 }
 
 export function JsonLd({data}: {data: object}) {

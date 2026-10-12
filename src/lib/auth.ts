@@ -136,7 +136,7 @@ export async function isLoggedIn(c: Context<AppEnv>): Promise<boolean> {
   const [expires, version] = value.split('.').map(Number);
 
   return (
-    expires > Date.now() &&
+    (expires ?? 0) > Date.now() &&
     version === (await currentVersion(c.var.deploy.isProd))
   );
 }

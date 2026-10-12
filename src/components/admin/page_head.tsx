@@ -1,6 +1,6 @@
 interface PageHeadProps {
   title: string;
-  viewHref?: string;
+  viewHref?: string | undefined;
 }
 
 export function PageHead({title, viewHref}: PageHeadProps) {

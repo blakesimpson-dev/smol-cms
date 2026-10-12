@@ -40,9 +40,9 @@ test('repeated inputs are zipped into images, in order', () => {
     'gallery.featured': 'b',
   });
 
-  assert.equal(out.heading, 'Hello');
-  assert.equal(out.photo, null);
-  assert.deepEqual(out.gallery, [
+  assert.equal(out['heading'], 'Hello');
+  assert.equal(out['photo'], null);
+  assert.deepEqual(out['gallery'], [
     {
       id: 'a',
       alt: 'First',
@@ -70,8 +70,8 @@ test('rows still uploading (no id yet) are dropped', () => {
     'gallery.alt': ['', 'Second'],
   });
 
-  assert.equal(out.photo, null);
-  assert.equal((out.gallery as unknown[]).length, 1);
+  assert.equal(out['photo'], null);
+  assert.equal((out['gallery'] as unknown[]).length, 1);
 });
 
 test('list fields become one object per item', () => {
@@ -80,7 +80,7 @@ test('list fields become one object per item', () => {
     'quotes.author': ['Sam', 'Alex'],
   });
 
-  assert.deepEqual(out.quotes, [
+  assert.deepEqual(out['quotes'], [
     {quote: 'Great', author: 'Sam'},
     {quote: 'Lovely', author: 'Alex'},
   ]);
