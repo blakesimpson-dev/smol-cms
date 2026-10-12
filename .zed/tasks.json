@@ -39,8 +39,13 @@
     "save": "all"
   },
   {
+    "label": "npm: test",
+    "command": "npm test",
+    "save": "all"
+  },
+  {
     "label": "npm: check all",
-    "command": "npm run lint && npm run typecheck && npm run format:check && npm run build",
+    "command": "npm run check",
     "save": "all"
   }
 ]

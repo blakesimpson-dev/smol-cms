@@ -56,6 +56,7 @@ with `git pull template main`. Site-specific content lives in `src/content/`.
 | `npm test`                        | Unit tests (`node:test`)                 |
 | `npm run lint` / `typecheck`      | ESLint (Google TypeScript style) / `tsc` |
 | `npm run format` / `format:check` | Prettier                                 |
+| `npm run check`                   | All of the above, except dev and preview |
 
 A forgotten admin password is reset by deleting the stored one, so
 `ADMIN_PASSWORD` applies again: `netlify blobs:delete content admin-auth`.
